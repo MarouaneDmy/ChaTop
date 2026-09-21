@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  name       String
+  password   String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+  rentals    Rental[]
+  messages   Message[]
+
+  @@map("users")
+}
+
+model Rental {
+  id          Int       @id @default(autoincrement())
+  name        String
+  surface     Decimal   // Correspond à decimal(10,2)
+  price       Decimal   // Correspond à decimal(10,2)
+  picture     String?   // Nullable (car "YES" dans ta BDD)
+  description String    // Correspond à "text"
+  owner_id    Int       @map("owner_id")
+  created_at  DateTime? @default(now())
+  updated_at  DateTime? @updatedAt
+  owner       User      @relation(fields: [owner_id], references: [id])
+  messages    Message[]
+
+  @@map("rentals")
+}
+
+model Message {
+  id         Int       @id @default(autoincrement())
+  rental_id  Int       @map("rental_id")
+  user_id    Int       @map("user_id")
+  message    String    // Correspond à "text"
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+  rental     Rental    @relation(fields: [rental_id], references: [id])
+  user       User      @relation(fields: [user_id], references: [id])
+
+  @@map("messages")
+}
