@@ -4,6 +4,8 @@ import {
   Body,
   UsePipes,
   ValidationPipe,
+  Get,
+  Request,
 } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
 import { RegisterDto } from './dto/register.dto.js';
@@ -26,5 +28,10 @@ export class AuthController {
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Get('me')
+  getProfile(@Request() req: any) {
+    return this.authService.getProfile(req.user.userId);
   }
 }
