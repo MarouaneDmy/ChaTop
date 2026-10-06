@@ -20,12 +20,11 @@ import { CreateRentalDto } from './dto/create-rental.dto.js';
 import { UpdateRentalDto } from './dto/update-rental.dto.js';
 
 @ApiTags('Rentals')
-@ApiBearerAuth() // Indique que toutes les routes de ce contrôleur nécessitent un JWT
+@ApiBearerAuth()
 @Controller('rentals')
 export class RentalsController {
   constructor(private readonly rentalsService: RentalsService) {}
 
-  // --- GET /api/rentals ---
   @ApiOperation({ summary: 'Récupérer toutes les locations' })
   @ApiResponse({
     status: 200,
@@ -50,7 +49,7 @@ export class RentalsController {
   }
 
   @ApiOperation({ summary: 'Créer une nouvelle location' })
-  @ApiBody({ type: CreateRentalDto }) // Précise le format du body attendu
+  @ApiBody({ type: CreateRentalDto })
   @ApiResponse({ status: 201, description: 'Location créée avec succès.' })
   @ApiResponse({
     status: 400,

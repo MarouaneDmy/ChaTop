@@ -18,17 +18,24 @@ export class RentalsService {
           select: {
             id: true,
             name: true,
-            email: true,
           },
         },
       },
     });
 
-    return rentals.map((rental) => ({
-      ...rental,
+    const formattedRentals = rentals.map((rental) => ({
+      id: rental.id,
+      name: rental.name,
       surface: Number(rental.surface),
       price: Number(rental.price),
+      picture: rental.picture,
+      description: rental.description,
+      owner: rental.owner,
+      created_at: rental.created_at,
+      updated_at: rental.updated_at,
     }));
+
+    return { rentals: formattedRentals };
   }
 
   async findOne(id: number) {
