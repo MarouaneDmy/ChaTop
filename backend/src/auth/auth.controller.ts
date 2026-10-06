@@ -19,7 +19,7 @@ import { RegisterDto } from './dto/register.dto.js';
 import { LoginDto } from './dto/login.dto.js';
 import { Public } from './decorators/public.decorator.js';
 
-@ApiTags('Auth') // Groupe "Auth" dans Swagger
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -54,7 +54,7 @@ export class AuthController {
   }
 
   @Get('me')
-  @ApiBearerAuth() // 🔒 Cette route nécessite un token JWT
+  @ApiBearerAuth()
   @ApiOperation({
     summary: "Récupérer les informations de l'utilisateur connecté",
   })

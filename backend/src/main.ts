@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard.js';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -12,7 +12,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.enableCors();
 
-  app.useGlobalGuards(new JwtAuthGuard(app.get('Reflector')));
+  const reflector = app.get(Reflector);
+  app.useGlobalGuards(new JwtAuthGuard(reflector));
 
   const config = new DocumentBuilder()
     .setTitle('Chatop API')
