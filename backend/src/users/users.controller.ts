@@ -9,7 +9,7 @@ import {
 import { UsersService } from './users.service.js';
 
 @ApiTags('Users')
-@ApiBearerAuth() // Toutes les routes de ce controller sont protégées
+@ApiBearerAuth()
 @Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

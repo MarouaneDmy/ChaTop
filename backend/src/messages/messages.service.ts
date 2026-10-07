@@ -7,7 +7,6 @@ export class MessagesService {
   constructor(private prisma: PrismaService) {}
 
   async create(createMessageDto: CreateMessageDto, userId: number) {
-    // Vérifier que la location existe
     const rental = await this.prisma.rental.findUnique({
       where: { id: createMessageDto.rental_id },
     });
@@ -18,11 +17,10 @@ export class MessagesService {
       );
     }
 
-    // Créer le message
     const message = await this.prisma.message.create({
       data: {
         ...createMessageDto,
-        user_id: userId, // L'utilisateur connecté
+        user_id: userId,
       },
       include: {
         user: {

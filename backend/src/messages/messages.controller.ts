@@ -10,7 +10,7 @@ import { MessagesService } from './messages.service.js';
 import { CreateMessageDto } from './dto/create-message.dto.js';
 
 @ApiTags('Messages')
-@ApiBearerAuth() // Toutes les routes de ce controller sont protégées
+@ApiBearerAuth()
 @Controller('messages')
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
