@@ -1,114 +1,87 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🏠 Chatop Backend API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Ce projet est le backend de l'application Chatop, développé avec **NestJS** et **TypeScript**. Il fournit une API REST sécurisée pour gérer les utilisateurs, les locations immobilières et les messages, en s'appuyant sur une base de données **MySQL** via l'ORM **Prisma**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🛠️ Prérequis
 
-## Description
+Avant de commencer, assurez-vous d'avoir installé les éléments suivants sur votre machine :
+- **Node.js** (version 18 ou supérieure recommandée)
+- **npm** (inclus avec Node.js)
+- Un serveur **MySQL** actif en local (port 3306 par défaut)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## ⚙️ Installation et Configuration
 
-## Project setup
-
+### 1. Cloner le projet et installer les dépendances
+Ouvrez votre terminal à la racine du dossier `backend` et lancez :
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+### 2. Configuration de la base de données
+Le projet utilise un fichier `.env` pour gérer les variables d'environnement (identifiants de la base de données, secret JWT, etc.).
 
-```bash
-# development
-$ npm run start
+1. Créez un fichier `.env` à la racine du dossier `backend` (au même niveau que le `package.json`).
+2. Copiez et adaptez le contenu suivant avec vos propres identifiants MySQL :
 
-# watch mode
-$ npm run start:dev
+```env
+# Configuration MySQL
+DB_USER="root"
+DB_PASSWORD="votre_mot_de_passe_mysql"
+DB_NAME="chatop_db"
 
-# production mode
-$ npm run start:prod
+# URL de connexion Prisma (format : mysql://USER:PASSWORD@HOST:PORT/DB_NAME)
+DATABASE_URL="mysql://root:votre_mot_de_passe_mysql@localhost:3306/chatop_db"
+
+# Secret pour la signature des tokens JWT (à garder confidentiel)
+JWT_SECRET="un_secret_tres_long_et_complexe_pour_la_securite_123456"
+
+# Port d'écoute du serveur NestJS
+PORT=3001
 ```
 
-## Run tests
+3. Générez le client Prisma pour que TypeScript puisse interagir avec votre base de données :
+```bash
+npx prisma generate
+```
+*(Note : si la base de données `chatop_db` n'existe pas encore, vous pouvez l'initialiser via MySQL Workbench avec le script `schema.sql` fourni dans les ressources du projet.)*
+
+## 🚀 Lancement du projet
+
+Une fois la configuration terminée, vous pouvez démarrer le serveur en mode développement (avec le hot-reload activé) :
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start:dev
 ```
 
-## Deployment
+Le serveur sera accessible à l'adresse indiquée dans votre terminal, par défaut : **`http://localhost:3001`**.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 📖 Documentation de l'API (Swagger)
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+L'API est entièrement documentée via **Swagger (OpenAPI)**. Une interface interactive est disponible pour visualiser les routes, les modèles de données et tester les endpoints directement depuis votre navigateur.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+👉 **Accéder à la documentation Swagger :** [http://localhost:3001/api](http://localhost:3001/api)
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 🔒 Tester les routes protégées sur Swagger
+La plupart des routes nécessitent un token JWT. Pour les tester :
+1. Utilisez la route `POST /api/auth/login` (ou `/register`) dans Swagger pour obtenir un token.
+2. Cliquez sur le bouton **Authorize** (le cadenas 🔒) en haut à droite de l'interface Swagger.
+3. Collez votre token (sans le mot "Bearer ") et validez.
+4. Vous pouvez désormais exécuter les requêtes protégées (comme `GET /api/rentals`).
 
-## Observability
+## 📂 Architecture du projet
 
-In production applications, observability is essential for understanding how your system behaves, detecting issues early, and maintaining reliable performance.
+Le projet suit une architecture modulaire :
+- **`src/auth/`** : gestion de l'authentification (Login, Register, JWT, Passport).
+- **`src/rentals/`** : gestion des locations (CRUD complet).
+- **`src/users/`** : gestion des utilisateurs.
+- **`src/messages/`** : gestion des messages entre utilisateurs.
+- **`src/prisma/`** : service global de connexion à la base de données.
 
-[NestJS Observe](https://observe.nestjs.com) automatically instruments your NestJS application, giving you deep visibility into your system with minimal setup:
+## 🧪 Commandes utiles
 
-- **Distributed tracing:** Follow requests across services and understand how they flow through your system.
-- **Waterfall analysis:** Visualize request execution and identify slow operations, bottlenecks, and unexpected delays.
-- **Performance analysis:** Analyze application performance in real time and quickly pinpoint areas that need optimization.
-- **Metrics:** Track key application and infrastructure metrics to understand system health and performance trends.
-- **Logging:** Centralize and correlate logs with traces and other telemetry to make debugging easier.
-- **Error tracking:** Detect errors quickly and investigate their root causes with the surrounding context.
-- **SLA monitoring:** Track service-level objectives and identify when your application is approaching or exceeding defined thresholds.
-- **Alarms and alerts:** Set up alerts for critical errors, performance degradation, SLA violations, and other anomalies so your team can react quickly.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Auto-instrument your application with [NestJS Observer](https://observer.nestjs.com). Distributed tracing, metrics, and logging made easy. Error tracking and performance monitoring for your NestJS applications.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+| Commande | Description |
+| :--- | :--- |
+| `npm run start` | Démarre le serveur en mode production |
+| `npm run start:dev` | Démarre le serveur en mode développement (watch mode) |
+| `npm run build` | Compile le projet TypeScript en JavaScript |
+| `npx prisma studio` | Ouvre l'interface visuelle de Prisma pour gérer les données (port 5555) |
